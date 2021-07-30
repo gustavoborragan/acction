@@ -1,0 +1,41 @@
+name: 'unofficial helm-docs acction'
+description: 'A tool for automatically generating markdown documentation for helm charts'
+author: 'gustavoborragan'
+
+inputs:
+  chart_directory_path:
+    description: 'Chart directory path (default .).'
+    required: false
+    default: "."
+  outout_file_name:
+    description: 'Output file name (default README).'
+    required: false
+    default: "README"
+  outout_file_extension:
+    description: 'Output file extension (default md).'
+    required: false
+    default: "md"
+  watermark:
+    description: 'Create watermark footnote (default false).'
+    required: false
+    default: "false"
+  message:
+    description: 'In case of having the value of watermark to true, you must specify a text.'
+    required: false
+    default: "Some text as a watermark."
+
+runs:
+  using: 'composite'
+  steps:
+    - run: ${{ github.action_path }}/entrypoint.sh
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.chart_directory_path }}
+        INPUT_FILE: ${{ inputs.outout_file_name }}
+        INPUT_EXTENSION: ${{ inputs.outout_file_extension }}
+        INPUT_WATERMARK_STATUS: ${{ inputs.watermark }}
+        INPUT_WATERMARK_MSG: ${{ inputs.message }}
+
+branding:
+  color: yellow
+  icon: align-justify
